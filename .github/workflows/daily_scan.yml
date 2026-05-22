@@ -1,0 +1,36 @@
+name: 每日A股选股推送
+
+on:
+  schedule:
+    # 北京时间 15:30（收盘后30分钟）= UTC 07:30，仅工作日运行
+    - cron: '30 7 * * 1-5'
+  workflow_dispatch:   # 允许在 GitHub 网页上手动点击触发，方便测试
+
+jobs:
+  stock-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180    # 最长允许运行3小时
+
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v4
+
+      - name: 配置 Python 3.11 环境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 安装依赖库
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 运行选股机器人
+        env:
+          EMAIL_SENDER:   ${{ secrets.EMAIL_SENDER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_RECEIVER: ${{ secrets.EMAIL_RECEIVER }}
+          SMTP_SERVER:    ${{ secrets.SMTP_SERVER }}
+          SMTP_PORT:      ${{ secrets.SMTP_PORT }}
+        run: python main.py
