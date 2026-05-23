@@ -1,3 +1,5 @@
 baostock>=0.8.8
 pandas>=2.0.0
 numpy>=1.24.0
+mplfinance>=0.12.10b0
+matplotlib>=3.7.0
