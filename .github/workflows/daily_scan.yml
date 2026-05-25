@@ -3,7 +3,7 @@ name: 每日A股选股推送
 on:
   schedule:
     # 北京时间 17:40（收盘2小时40分，数据100%更新完成）= UTC 09:40
-    - cron: '30 10 * * 1-5'
+    - cron: '*/15 * * * *'
   workflow_dispatch:   # 允许在 GitHub 网页手动触发测试
 
 jobs:
