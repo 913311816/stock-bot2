@@ -1,38 +1,36 @@
-name: 每日A股选股推送
+name: stock_scan
 
-on:
+"on":
   schedule:
-    # 北京时间 16:30（收盘1.5小时后数据确保更新）= UTC 08:30
-    - cron: '30 8 * * 1-5'
-  workflow_dispatch:   # 允许在 GitHub 网页手动触发测试
-
+    - cron: '0 3 * * 1-5'
+  workflow_dispatch:  
 jobs:
   stock-scan:
     runs-on: ubuntu-latest
     timeout-minutes: 180
 
     steps:
-      - name: 拉取代码
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: 安装中文字体（K线图显示中文用）
+      - name: Install Chinese fonts
         run: |
           sudo apt-get update -q
           sudo apt-get install -y fonts-wqy-microhei
           fc-cache -fv
 
-      - name: 配置 Python 3.11 环境
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
 
-      - name: 安装依赖库
+      - name: Install dependencies
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: 运行选股机器人
+      - name: Run stock scanner
         env:
           EMAIL_SENDER:   ${{ secrets.EMAIL_SENDER }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
