@@ -38,4 +38,7 @@ jobs:
           EMAIL_RECEIVER: ${{ secrets.EMAIL_RECEIVER }}
           SMTP_SERVER:    ${{ secrets.SMTP_SERVER }}
           SMTP_PORT:      ${{ secrets.SMTP_PORT }}
+          TUSHARE_TOKEN:  ${{ secrets.TUSHARE_TOKEN }}
+          SUPABASE_URL:   ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY:   ${{ secrets.SUPABASE_KEY }}
         run: python main.py
