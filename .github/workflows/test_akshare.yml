@@ -1,0 +1,26 @@
+name: 测试AKShare概念接口
+
+on:
+  workflow_dispatch:   # 只允许手动触发，测试用
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v4
+
+      - name: 配置 Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安装依赖
+        run: |
+          pip install --upgrade pip
+          pip install akshare pandas
+
+      - name: 运行接口测试
+        run: python test_akshare.py
